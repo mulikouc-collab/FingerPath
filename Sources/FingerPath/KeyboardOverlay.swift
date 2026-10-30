@@ -68,6 +68,8 @@ final class KeyboardOverlayController: ObservableObject {
     /// 跟随模式：键盘在候选条下方时，词和整句放在键盘上面（挨着候选条）；否则放在下面。
     @Published private(set) var textRowsOnTop = false
     @Published private(set) var wordEnglish = ""
+    /// wordEnglish 是哪个词的翻译：和当前的词对得上才显示，避免「来 → We」这种错位。
+    @Published private(set) var wordEnglishFor = ""
     @Published private(set) var sentenceEnglish = ""
 
     private var panel: NSPanel?
@@ -327,13 +329,21 @@ final class KeyboardOverlayController: ObservableObject {
         }
         let word = Self.lastWord(of: source)
         translateTask = Task { [weak self] in
-            try? await Task.sleep(for: .milliseconds(500))
+            try? await Task.sleep(for: .milliseconds(300))
             guard !Task.isCancelled else { return }
+            // 先翻译词（快），再翻译整句。
+            if !word.isEmpty, word != source, let wordResult = try? await TranslationService.shared.translate(word) {
+                guard !Task.isCancelled, let self else { return }
+                self.wordEnglish = wordResult.translated
+                self.wordEnglishFor = word
+            }
             let sentence = try? await TranslationService.shared.translate(source)
-            let wordResult = word.isEmpty || word == source ? nil : try? await TranslationService.shared.translate(word)
             guard !Task.isCancelled, let self else { return }
             self.sentenceEnglish = sentence?.translated ?? ""
-            self.wordEnglish = wordResult?.translated ?? (word == source ? self.sentenceEnglish : "")
+            if word == source {
+                self.wordEnglish = self.sentenceEnglish
+                self.wordEnglishFor = word
+            }
         }
     }
 
@@ -643,11 +653,14 @@ private struct KeyboardOverlayView: View {
                             .padding(.horizontal, 7)
                             .padding(.vertical, 1)
                             .background(Color.orange.opacity(0.2), in: RoundedRectangle(cornerRadius: 6))
-                        if !controller.wordEnglish.isEmpty {
-                            Image(systemName: "arrow.right").font(.caption).foregroundStyle(.secondary)
+                        Image(systemName: "arrow.right").font(.caption).foregroundStyle(.secondary)
+                        // 译文还没回来（或者属于上一个词）时显示「…」。
+                        if controller.wordEnglishFor == controller.lastCommittedWord, !controller.wordEnglish.isEmpty {
                             Text(controller.wordEnglish)
                                 .font(.system(size: 16, weight: .heavy, design: .rounded))
                                 .foregroundStyle(Color(red: 0.0, green: 0.45, blue: 0.70))
+                        } else {
+                            Text("…").foregroundStyle(.secondary)
                         }
                     }
                     Spacer(minLength: 4)

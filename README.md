@@ -14,7 +14,9 @@
   <a href="#english">English</a> · <a href="#中文">中文</a>
 </p>
 
-<!-- TODO: 在这里放一张动图演示 / add a demo GIF here -->
+<p align="center">
+  <img src="docs/demo.gif" width="760" alt="FingerPath demo: the keyboard follows the text field, keys light up, English appears as you type">
+</p>
 
 ---
 
@@ -48,6 +50,8 @@ cd FingerPath
 zsh scripts/install_and_run.sh
 ```
 
+Tip: set `SIGN_IDENTITY` to a code-signing identity of yours (e.g. `SIGN_IDENTITY="My Cert" zsh scripts/install_and_run.sh`) so macOS keeps the Accessibility permission across rebuilds.
+
 Then open **System Settings → Privacy & Security → Accessibility** and turn on **FingerPath**.
 
 FingerPath lives in the menu bar (keyboard icon). Use the menu to show / hide the keyboard, choose the position and hint level, and toggle translation.
@@ -70,7 +74,7 @@ Requirements: macOS 14 or later. English translation needs macOS 26 or later and
 
 ### Roadmap
 
-- [ ] Demo GIF
+- [x] Demo GIF
 - [ ] Prebuilt, signed releases
 - [ ] Windows version (if people like the idea)
 - [ ] More keyboard layouts
@@ -111,6 +115,8 @@ cd FingerPath
 zsh scripts/install_and_run.sh
 ```
 
+小提示：设置 `SIGN_IDENTITY` 为你自己的签名证书（例如 `SIGN_IDENTITY="我的证书" zsh scripts/install_and_run.sh`），重新编译后就不用重新授权辅助功能。
+
 然后打开 **系统设置 → 隐私与安全性 → 辅助功能**，打开 **FingerPath**。
 
 FingerPath 在菜单栏（键盘图标）。菜单里可以显示 / 隐藏键盘、选位置和提示等级、开关英文翻译。
@@ -133,7 +139,7 @@ FingerPath 在菜单栏（键盘图标）。菜单里可以显示 / 隐藏键盘
 
 ### 计划
 
-- [ ] 演示动图
+- [x] 演示动图
 - [ ] 签名好的安装包
 - [ ] Windows 版（如果大家喜欢）
 - [ ] 更多键盘布局
