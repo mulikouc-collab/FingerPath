@@ -36,7 +36,7 @@ struct TranslationResult: Sendable, Equatable {
     let translated: String
     let sourceLanguage: TextLanguage
 
-    /// 存入生词本时统一「中文 → English」的顺序。
+    /// 统一「中文 → English」的顺序。
     var chineseText: String { sourceLanguage == .chinese ? source : translated }
     var englishText: String { sourceLanguage == .chinese ? translated : source }
 }
