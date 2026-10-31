@@ -1,6 +1,7 @@
 #!/bin/zsh
 # 编译并打包 dist/FingerPath.app。
-# 用法：zsh scripts/build_app.sh            （默认临时签名 ad-hoc）
+# 用法：zsh scripts/build_app.sh            （默认临时签名 ad-hoc，只编译本机芯片）
+#      UNIVERSAL=1 zsh scripts/build_app.sh  （同时支持 Apple 芯片和 Intel，发布用）
 #      SIGN_IDENTITY="你的证书名" zsh scripts/build_app.sh   （固定签名，重新编译后不用重新授权辅助功能）
 set -euo pipefail
 
@@ -14,8 +15,12 @@ if [[ -z "${SDKROOT:-}" && -d "$LEGACY_SDK" ]]; then
   export SDKROOT="$LEGACY_SDK"
 fi
 
-swift build -c release
-BIN_DIR="$(swift build -c release --show-bin-path)"
+ARCH_FLAGS=()
+if [[ "${UNIVERSAL:-0}" == "1" ]]; then
+  ARCH_FLAGS=(--arch arm64 --arch x86_64)
+fi
+swift build -c release "${ARCH_FLAGS[@]}"
+BIN_DIR="$(swift build -c release "${ARCH_FLAGS[@]}" --show-bin-path)"
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"

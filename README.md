@@ -42,6 +42,13 @@ FingerPath puts a small keyboard **right next to the candidate bar**, so the tex
 
 ### Install
 
+**Download** (easiest):
+
+1. Go to [**Releases**](https://github.com/mulikouc-collab/FingerPath/releases/latest) and download `FingerPath-x.y.z-macOS.zip` (works on both Apple silicon and Intel Macs).
+2. Unzip it and drag **FingerPath.app** into your **Applications** folder.
+3. Open it. Because FingerPath isn't signed with a paid Apple Developer ID yet, macOS will say it can't verify the developer. Click **Done**, then go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**.
+   (Or run `xattr -dr com.apple.quarantine /Applications/FingerPath.app` in Terminal.)
+
 **Build from source** (requires the Xcode Command Line Tools):
 
 ```bash
@@ -75,7 +82,8 @@ Requirements: macOS 14 or later. English translation needs macOS 26 or later and
 ### Roadmap
 
 - [x] Demo GIF
-- [ ] Prebuilt, signed releases
+- [x] Prebuilt releases (Apple silicon + Intel)
+- [ ] Notarized releases (needs a paid Apple Developer ID)
 - [ ] Windows version (if people like the idea)
 - [ ] More keyboard layouts
 
@@ -106,6 +114,13 @@ FingerPath 把一个小键盘**贴在输入法候选条旁边**，你打的字�
 - **常错键**：统计按完马上删掉的键（只记键名和次数），在菜单里显示你最容易打错的键
 
 ### 安装
+
+**直接下载**（最简单）：
+
+1. 打开 [**Releases 发布页**](https://github.com/mulikouc-collab/FingerPath/releases/latest)，下载 `FingerPath-x.y.z-macOS.zip`（Apple 芯片和 Intel 芯片的 Mac 都能用）
+2. 解压，把 **FingerPath.app** 拖进「**应用程序**」文件夹
+3. 打开它。因为 FingerPath 还没有用付费的苹果开发者证书签名，系统会提示「无法验证开发者」。点「**完成**」，然后到 **系统设置 → 隐私与安全性**，往下拉，点「**仍要打开**」
+   （或者在终端运行 `xattr -dr com.apple.quarantine /Applications/FingerPath.app`）
 
 **从源码编译**（需要 Xcode 命令行工具）：
 
@@ -140,7 +155,8 @@ FingerPath 在菜单栏（键盘图标）。菜单里可以显示 / 隐藏键盘
 ### 计划
 
 - [x] 演示动图
-- [ ] 签名好的安装包
+- [x] 打包好的安装包（Apple 芯片 + Intel）
+- [ ] 经苹果公证的安装包（需要付费开发者账号）
 - [ ] Windows 版（如果大家喜欢）
 - [ ] 更多键盘布局
 
